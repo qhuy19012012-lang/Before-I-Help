@@ -1,6 +1,6 @@
-console.log("git test");
+ 
 
-let gamestate = {
+const gamestate = {
     mxd :30,
     money :100,
     Day :1,
@@ -222,4 +222,102 @@ function endday() {
         gamestate.Day = gamestate.Day + 1
     }
 }
-QuestNPC(Thoaime,gamestate)
+const dialogueText = document.getElementById("dialogue-text")
+const nextBtn = document.getElementById("next-btn")
+const dialogueBox = document.getElementById("dialogue-box")
+
+QuestNPC(Thoaime, gamestate)
+
+if (nextBtn) {
+  nextBtn.onclick = function () {
+    QuestNPC(Thoaime, gamestate)
+  }
+}
+const canvas = document.getElementById("game_canvas");
+const ctx = canvas.getContext("2d");
+
+const TILE = 16;
+const tiles = {
+  0: new Image(), // grass
+  1: new Image(), // path
+  2: new Image(), // path_grass
+  3: new Image(), // path up
+  4: new Image(), // path down
+  5: new Image(), // path left
+  6: new Image(), // path right
+  7: new Image(), // grass path1
+  8: new Image(), // grass path2
+  9: new Image(), // grass path3
+  10: new Image(), //grass path4
+  11: new Image(), //grass path5
+  12: new Image(), //grass path6
+  13: new Image(), //grass path7
+  14: new Image(), //grass path8
+};
+tiles[0].src = "tiles/grass.png";
+tiles[1].src = "tiles/path.png";
+tiles[2].src = "tiles/path_grass.png";
+tiles[3].src = "tiles/path_up.png";
+tiles[4].src = "tiles/path_down.png";
+tiles[5].src = "tiles/path_left.png";
+tiles[6].src = "tiles/path_right.png";
+tiles[7].src = "tiles/grass_path1.png";
+tiles[8].src = "tiles/grass_path2.png";
+tiles[9].src = "tiles/grass_path3.png";
+tiles[10].src = "tiles/grass_path4.png";
+tiles[11].src = "tiles/grass_path5.png";
+tiles[12].src = "tiles/grass_path6.png";
+tiles[13].src = "tiles/grass_path7.png";
+tiles[14].src = "tiles/grass_path8.png";
+const map = [
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+]
+canvas.width  = map[0].length * TILE;
+canvas.height = map.length * TILE;
+function drawMap() {
+  for (let y = 0; y < map.length; y++) {
+    for (let x = 0; x < map[y].length; x++) {
+
+      const tileId = map[y][x];
+      const img = tiles[tileId];
+
+      ctx.drawImage(
+        img,
+        x * TILE,
+        y * TILE,
+        TILE,
+        TILE
+      );
+    }
+  }
+}
+let loaded = 0;
+const totalTiles = Object.keys(tiles).length;
+
+for (let key in tiles) {
+  tiles[key].onload = () => {
+    loaded++;
+    if (loaded === totalTiles) {
+      drawMap();
+    }
+  };
+}

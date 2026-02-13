@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: monospace;
+  overflow: hidden;
+    image-rendering: pixelated;
+}
+@font-face {
+    font-family: 'PixelFont';
+    src: url('fonts/VT323-Regular.ttf');
+}
+#dialogue-box {
+    font-family: 'PixelFont';
+    font-size: 26px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 700px;
+    border: 2px solid white;
+    padding: 20px;
+
+    transition: opacity 0.3s ease;
+}
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+#next-btn {
+    margin-top: 10px;
+}
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+
+  transform: scale(4);
+  transform-origin: top left;
+}

@@ -1,5 +1,3 @@
- 
-
 const gamestate = {
     mxd :30,
     money :100,
@@ -253,6 +251,14 @@ const tiles = {
   12: new Image(), //grass path6
   13: new Image(), //grass path7
   14: new Image(), //grass path8
+  15: new Image(), //grass1
+  16: new Image(), //grass2
+  17: new Image(), //grass3
+  18: new Image(), //grass4
+  19: new Image(), //path1
+  20: new Image(), //path2
+  21: new Image(), //path3
+  22: new Image(), //path4
 };
 tiles[0].src = "tiles/grass.png";
 tiles[1].src = "tiles/path.png";
@@ -269,30 +275,79 @@ tiles[11].src = "tiles/grass_path5.png";
 tiles[12].src = "tiles/grass_path6.png";
 tiles[13].src = "tiles/grass_path7.png";
 tiles[14].src = "tiles/grass_path8.png";
+tiles[15].src = "tiles/grass1.png"
+tiles[16].src = "tiles/grass2.png"
+tiles[17].src = "tiles/grass3.png"
+tiles[18].src = "tiles/grass4.png"
+tiles[19].src = "tiles/path1.png"
+tiles[20].src = "tiles/path2.png"
+tiles[21].src = "tiles/path3.png"
+tiles[22].src = "tiles/path4.png"
 const map = [
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,22,4,4,4,4,4,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,6,1,1,1,1,1,5,0,0,0,0,0,0,8,1,1,1,1,1,9,0,0,0],
+   [0,0,0,0,0,0,0,0,0,6,1,1,1,1,1,5,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0],
+   [0,0,0,0,0,0,0,0,0,21,18,1,1,1,17,20,0,0,0,0,0,0,11,1,1,1,1,1,10,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [4,4,4,4,4,4,4,4,4,4,15,1,1,1,16,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [3,3,3,3,18,1,1,1,17,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,18,1,1,1,17,3,3,3],
+   [0,0,0,0,6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5,0,0,0],
+   [0,0,0,22,15,1,1,1,16,19,0,0,0,0,0,0,0,0,0,0,0,0,0,22,15,1,1,1,16,19,0,0],
+   [0,0,0,6,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,1,1,5,0,0],
+   [0,0,0,6,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,1,1,5,0,0],
+   [0,0,0,21,3,3,3,3,3,20,0,0,0,0,0,0,0,0,0,0,0,0,0,21,3,3,3,3,3,20,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
-canvas.width  = map[0].length * TILE;
-canvas.height = map.length * TILE;
+const house = {
+    img: new Image(),
+    x: 3 * TILE,
+    y: 10 * TILE,
+    w: 112,
+    h: 80
+}; 
+const house2 = {
+    img: new Image(),
+    x: 23 * TILE,
+    y: 10 * TILE,
+    w: 112,
+    h: 80
+}; 
+const house3 = {
+    img: new Image(),
+    x: 9 * TILE,
+    y: -1 * TILE,
+    w: 112,
+    h: 80
+}; 
+const BTT = {
+    img: new Image(),
+    x: 22 * TILE,
+    y: -1 * TILE,
+    w: 112,
+    h: 80
+}; 
+house3.img.src = "sprites/Nha3.png"
+house2.img.src = "sprites/Nha2.png"
+house.img.src = "sprites/Nha.png"
+BTT.img.src = "sprites/BTT.png"
+house.img.onload = () => {
+    drawScene();
+};
+house2.img.onload = () => {
+    drawScene();
+};
+house3.img.onload = () => {
+    drawScene();
+};
+BTT.img.onload = () => {
+    drawScene();
+};
 function drawMap() {
   for (let y = 0; y < map.length; y++) {
     for (let x = 0; x < map[y].length; x++) {
@@ -312,12 +367,45 @@ function drawMap() {
 }
 let loaded = 0;
 const totalTiles = Object.keys(tiles).length;
-
+function drawScene() {
+    drawMap();
+    ctx.drawImage(house.img,house.x,house.y);
+    ctx.drawImage(house2.img,house2.x,house2.y);
+    ctx.drawImage(house3.img,house3.x,house3.y);
+    ctx.drawImage(BTT.img,BTT.x,BTT.y);
+}
 for (let key in tiles) {
   tiles[key].onload = () => {
     loaded++;
     if (loaded === totalTiles) {
-      drawMap();
+      drawScene();
     }
   };
 }
+const BASE_WIDTH = map[0].length * TILE;  
+const BASE_HEIGHT = map.length * TILE;  
+canvas.width = BASE_WIDTH;
+canvas.height = BASE_HEIGHT;
+ctx.imageSmoothingEnabled = false;
+
+function resizeCanvas() {
+  const scale = Math.min(
+    window.innerWidth / BASE_WIDTH,
+    window.innerHeight / BASE_HEIGHT
+  );
+
+  canvas.width = BASE_WIDTH;
+  canvas.height = BASE_HEIGHT;
+
+  canvas.style.width = Math.floor(BASE_WIDTH * scale) + "px";
+  canvas.style.height = Math.floor(BASE_HEIGHT * scale) + "px";
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+
+  drawScene();
+}
+
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();

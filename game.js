@@ -1,3 +1,6 @@
+document.getElementById("startgame").onclick = function(){
+    document.getElementById("startgame").remove()
+    document.getElementById("gametitle").remove()
 const gamestate = {
     mxd :30,
     money :100,
@@ -409,3 +412,4 @@ function resizeCanvas() {
 
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
+}

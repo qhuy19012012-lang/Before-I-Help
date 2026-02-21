@@ -50,3 +50,24 @@ canvas {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
+#startgame {
+  transition: all 0.12s ease;
+}
+#startgame:not(:hover) {
+  background-color: #00EE00;
+}
+#startgame:hover {
+  background-color: #008800;
+}
+#startgame:active {
+  background-color: #AAFFAA;
+}
+#settings {
+  transition: all 0.12s ease;
+}
+#settings:hover {
+  background-color: #ddd;
+}
+#settings:not(:hover) {
+  background-color: rgb(150, 150, 150);
+}

@@ -11,14 +11,21 @@
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body style="background-color: black;">
     <canvas id="game_canvas"></canvas>
 
     <div id="dialogue-box">
         <p id="dialogue-text">đang test</p>
         <button id="next-btn">Next</button>
     </div>
-
+    <h1 id="gametitle" style="position:fixed;top:40%;border:0px;font-family: PixelFont;">Game</h1>
+    <button style="padding: 20px; position: fixed;border: 2px white solid;font-size: 200%; width: 25%;top:50%;cursor: pointer;font-family: PixelFont;" id="startgame">Play</button>
+    <button style="padding: 5px; position: fixed;bottom: 0;right: 0;width: 4%;height:8%;border:5px ridge rgb(173, 173, 173);" id="settings">
+        <img src="sprites/setting.png" width="100%" height="100%" alt="Settings" style="object-fit: scale-down;" title="Settings">
+    </button> 
+    <button style="padding: 5px; position: fixed;bottom: 0;right: 0;width: 4%;height:8%;border:5px ridge rgb(173, 173, 173);margin-right: 61.25px;" id="settings">
+        <img src="sprites/badge.png" width="100%" height="100%" alt="Achievements" style="object-fit: scale-down;" title="Achievements">
+    </button>
     <script src="game.js"></script>
 </body>
 </html>

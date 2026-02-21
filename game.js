@@ -1,6 +1,6 @@
 document.getElementById("startgame").onclick = function(){
-    document.getElementById("startgame").remove()
-    document.getElementById("gametitle").remove()
+    document.getElementById("startgame").style.visibility = "hidden"
+    document.getElementById("gametitle").style.visibility = "hidden"
 const gamestate = {
     mxd :30,
     money :100,
@@ -412,4 +412,23 @@ function resizeCanvas() {
 
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
+}
+document.getElementById("settings").onclick = function(){
+    if (document.getElementById("settings-menu").style.visibility === "hidden") {
+        document.getElementById("settings-menu").style.visibility = "visible";
+        document.getElementById("achievements-menu").style.visibility = "hidden";
+    } else {
+        document.getElementById("settings-menu").style.visibility = "hidden";
+    }
+}
+document.getElementById("achievements").onclick = function(){
+    if (document.getElementById("achievements-menu").style.visibility === "hidden") {
+        document.getElementById("achievements-menu").style.visibility = "visible";
+        document.getElementById("settings-menu").style.visibility = "hidden";
+    } else {
+        document.getElementById("achievements-menu").style.visibility = "hidden";
+    }
+}
+document.getElementById("close-settings").onclick = function(){
+    document.getElementById("settings-menu").style.visibility = "hidden";
 }

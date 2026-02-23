@@ -43,11 +43,15 @@
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
         </select>
-    <button id="close-settings" style="top:0px; right: 0px; position:absolute;font-family: Tahoma, Geneva, Verdana, sans-serif;">Close</button>
+    <button id="close-settings" style="top:0px; right: 0px; position:absolute;font-family: Tahoma, Geneva, Verdana, sans-serif;text-align: center;"><b>Close</b></button>
     </div>
     <div id="achievements-menu" style="visibility: hidden; position: fixed; bottom: 10%; right: 10%; width: 300px; height: 200px; background-color: rgb(0, 0, 0); border: 2px solid rgb(255, 255, 255); padding: 20px;overflow:scroll">
         <h2 style="margin:0px">Achievements</h2>
-        <p><i>Progress: 0/0 (0%)</i></p>
+        <div style="border: 2px solid white;overflow: hidden;height:30px;width:100%;position:relative;line-height: 0;">
+            <i style="position:relative;z-index: 4;top: 50%;">Progress: 0/0 (0%)</i>
+            <div style="background-color: green;width: 30%;height: 100%;position: relative;">
+            </div>
+        </div>
         <div id="a1" style="overflow: hidden;width:50px;height: 50px;border: 1px solid white;word-wrap: break-word">
             <p style="margin:0px">placeholder</p>
         </div>

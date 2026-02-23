@@ -10,6 +10,7 @@ const gamestate = {
     maxday : 4,
     thatvong :0,
     kotumua : 0,
+    map : 2
 }
 const Thoaime = {
     1 : {
@@ -286,7 +287,7 @@ tiles[19].src = "tiles/path1.png"
 tiles[20].src = "tiles/path2.png"
 tiles[21].src = "tiles/path3.png"
 tiles[22].src = "tiles/path4.png"
-const map = [
+const map1 = [
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,22,4,4,4,4,4,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -307,6 +308,27 @@ const map = [
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
+const map2 = [
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,16,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,15,1,1,1,5],
+   [15,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5],
+   [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5],
+   [1,1,1,1,17,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,18,1,1,1,5],
+   [18,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+   [6,1,1,1,16,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,15,1,1,1,5],
+   [6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,16],
+   [6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [6,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+   [6,1,1,1,17,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,18,1,1,1,1],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,17],
+   [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+]
 let spriteLoaded = 0;
 let totalSprites = 0;
 function createSprite(src, tileX, tileY, w, h) {
@@ -316,7 +338,12 @@ function createSprite(src, tileX, tileY, w, h) {
   img.onload = () => {
     spriteLoaded++;
     if (spriteLoaded === totalSprites) {
-      drawScene();
+        if(gamestate.map === 1){
+            drawScene1()
+        }
+        if (gamestate.map === 2){
+            drawScene2()
+        }
     }
   };
 
@@ -386,22 +413,22 @@ function drawmulti(typepos,typeimg,typesize) {
     );
   }
 }
-const sprites = [
+const sprites1 = [
   createSprite("sprites/Nha.png",3,11,112,80),
   createSprite("sprites/Nha2.png",23,11,112,80),
   createSprite("sprites/Nha3.png",9,0,112,80),
   createSprite("sprites/BTT.png",22,0,112,80),
 ];
-function drawSprites() {
+function drawSprites(sprites) {
   for (const s of sprites) {
     ctx.drawImage(s.img, s.x, s.y, s.w, s.h);
   }
 }
-function drawMap() {
-  for (let y = 0; y < map.length; y++) {
-    for (let x = 0; x < map[y].length; x++) {
+function drawMap(currentmap) {
+  for (let y = 0; y < currentmap.length; y++) {
+    for (let x = 0; x < currentmap[y].length; x++) {
 
-      const tileId = map[y][x];
+      const tileId = currentmap[y][x];
       const img = tiles[tileId];
 
       ctx.drawImage(
@@ -416,23 +443,31 @@ function drawMap() {
 }
 let loaded = 0;
 const totalTiles = Object.keys(tiles).length;
-function drawScene() {
-    drawMap()
-    drawSprites()
+function drawScene1() {
+    drawMap(map1)
+    drawSprites(sprites1)
     drawmulti(Tree1Positions,Tree1Image,Tree1size)
     drawmulti(TreePositions,TreeImage,Treesize)
     drawmulti(BushPositions,BushImage,Bushsize)
+}
+function drawScene2() {
+    drawMap(map2)
 }
 for (let key in tiles) {
   tiles[key].onload = () => {
     loaded++;
     if (loaded === totalTiles) {
-      drawScene();
+      if (gamestate.map === 1){
+        drawScene1()
+      }
+      if (gamestate.map === 2){
+        drawScene2()
+      }
     }
   };
 }
-const BASE_WIDTH = map[0].length * TILE;  
-const BASE_HEIGHT = map.length * TILE;  
+const BASE_WIDTH = map1[0].length * TILE;  
+const BASE_HEIGHT = map1.length * TILE;  
 canvas.width = BASE_WIDTH;
 canvas.height = BASE_HEIGHT;
 ctx.imageSmoothingEnabled = false;
@@ -452,7 +487,12 @@ function resizeCanvas() {
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.imageSmoothingEnabled = false;
 
-  drawScene();
+ if (gamestate.map === 1){
+     drawScene1();
+ }
+ if (gamestate.map === 2){
+    drawScene2()
+ }
 }
 
 

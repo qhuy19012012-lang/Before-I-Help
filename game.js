@@ -288,6 +288,7 @@ tiles[21].src = "tiles/path3.png"
 tiles[22].src = "tiles/path4.png"
 const map = [
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,22,4,4,4,4,4,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,6,1,1,1,1,1,5,0,0,0,0,0,0,8,1,1,1,1,1,9,0,0,0],
    [0,0,0,0,0,0,0,0,0,6,1,1,1,1,1,5,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0],
@@ -305,52 +306,97 @@ const map = [
    [0,0,0,21,3,3,3,3,3,20,0,0,0,0,0,0,0,0,0,0,0,0,0,21,3,3,3,3,3,20,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
-const house = {
-    img: new Image(),
-    x: 3 * TILE,
-    y: 10 * TILE,
-    w: 112,
-    h: 80
-}; 
-const house2 = {
-    img: new Image(),
-    x: 23 * TILE,
-    y: 10 * TILE,
-    w: 112,
-    h: 80
-}; 
-const house3 = {
-    img: new Image(),
-    x: 9 * TILE,
-    y: -1 * TILE,
-    w: 112,
-    h: 80
-}; 
-const BTT = {
-    img: new Image(),
-    x: 22 * TILE,
-    y: -1 * TILE,
-    w: 112,
-    h: 80
-}; 
-house3.img.src = "sprites/Nha3.png"
-house2.img.src = "sprites/Nha2.png"
-house.img.src = "sprites/Nha.png"
-BTT.img.src = "sprites/BTT.png"
-house.img.onload = () => {
-    drawScene();
-};
-house2.img.onload = () => {
-    drawScene();
-};
-house3.img.onload = () => {
-    drawScene();
-};
-BTT.img.onload = () => {
-    drawScene();
-};
+let spriteLoaded = 0;
+let totalSprites = 0;
+function createSprite(src, tileX, tileY, w, h) {
+  const img = new Image();
+  totalSprites++;
+
+  img.onload = () => {
+    spriteLoaded++;
+    if (spriteLoaded === totalSprites) {
+      drawScene();
+    }
+  };
+
+  img.src = src;
+
+  return {
+    img,
+    x: tileX * TILE,
+    y: tileY * TILE,
+    w,
+    h
+  };
+}
+const TreeImage = new Image();
+TreeImage.src = "sprites/Tree.png";
+const Tree1Image = new Image();
+Tree1Image.src = "sprites/Tree1.png";
+const BushImage = new Image();
+BushImage.src = "sprites/Bush.png";
+const Treesize = {
+    w: 48,
+    h: 64
+}
+const Tree1size = {
+    w: 32,
+    h: 48
+}
+const Bushsize = {
+    w: 32,
+    h: 16
+}
+const TreePositions = [
+  { x: 2, y: 3 },
+  { x: 6, y: 3 },
+  { x: 15, y: 2 },
+  { x: 0, y: 10 },
+  { x: 9, y: 10 },
+  { x: 18, y: 10 },
+  { x: 29, y: 11 },
+  { x: 0, y: 10 },
+];
+const Tree1Positions = [
+  { x: 1, y: 2 },
+  { x: 5, y: 1 },
+  { x: 19, y: 2 },
+  { x: 10, y: 15 },
+  { x: 29, y: 4 },
+  { x: 12, y: 13 },
+  { x: 15, y: 11 },
+  { x: 22, y: 15 },
+];
+const BushPositions = [
+  { x: 0, y: 6 },
+  { x: 12, y: 12 },
+  { x: 19, y: 6 },
+  { x: 21, y: 12 },
+  { x: 17, y: 15 },
+]
+function drawmulti(typepos,typeimg,typesize) {
+  for (const pos of typepos) {
+    ctx.drawImage(
+      typeimg,
+      pos.x * TILE,
+      pos.y * TILE,
+      typesize.w,
+      typesize.h
+    );
+  }
+}
+const sprites = [
+  createSprite("sprites/Nha.png",3,11,112,80),
+  createSprite("sprites/Nha2.png",23,11,112,80),
+  createSprite("sprites/Nha3.png",9,0,112,80),
+  createSprite("sprites/BTT.png",22,0,112,80),
+];
+function drawSprites() {
+  for (const s of sprites) {
+    ctx.drawImage(s.img, s.x, s.y, s.w, s.h);
+  }
+}
 function drawMap() {
   for (let y = 0; y < map.length; y++) {
     for (let x = 0; x < map[y].length; x++) {
@@ -371,11 +417,11 @@ function drawMap() {
 let loaded = 0;
 const totalTiles = Object.keys(tiles).length;
 function drawScene() {
-    drawMap();
-    ctx.drawImage(house.img,house.x,house.y);
-    ctx.drawImage(house2.img,house2.x,house2.y);
-    ctx.drawImage(house3.img,house3.x,house3.y);
-    ctx.drawImage(BTT.img,BTT.x,BTT.y);
+    drawMap()
+    drawSprites()
+    drawmulti(Tree1Positions,Tree1Image,Tree1size)
+    drawmulti(TreePositions,TreeImage,Treesize)
+    drawmulti(BushPositions,BushImage,Bushsize)
 }
 for (let key in tiles) {
   tiles[key].onload = () => {

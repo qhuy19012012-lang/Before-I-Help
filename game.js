@@ -329,8 +329,11 @@ const map2 = [
    [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,17],
    [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
 ]
+let spritesReady = false
+let tileReady = false;
 let spriteLoaded = 0;
 let totalSprites = 0;
+const ZOOM = 2;
 function createSprite(src, tileX, tileY, w, h) {
   const img = new Image();
   totalSprites++;
@@ -338,12 +341,7 @@ function createSprite(src, tileX, tileY, w, h) {
   img.onload = () => {
     spriteLoaded++;
     if (spriteLoaded === totalSprites) {
-        if(gamestate.map === 1){
-            drawScene1()
-        }
-        if (gamestate.map === 2){
-            drawScene2()
-        }
+        spritesReady = true
     }
   };
 
@@ -457,12 +455,7 @@ for (let key in tiles) {
   tiles[key].onload = () => {
     loaded++;
     if (loaded === totalTiles) {
-      if (gamestate.map === 1){
-        drawScene1()
-      }
-      if (gamestate.map === 2){
-        drawScene2()
-      }
+      tileReady = true
     }
   };
 }
@@ -471,34 +464,61 @@ const BASE_HEIGHT = map1.length * TILE;
 canvas.width = BASE_WIDTH;
 canvas.height = BASE_HEIGHT;
 ctx.imageSmoothingEnabled = false;
-
+let SCALE = 1;
 function resizeCanvas() {
-  const scale = Math.min(
-    window.innerWidth / BASE_WIDTH,
-    window.innerHeight / BASE_HEIGHT
+  SCALE = Math.floor(
+    Math.min(
+      window.innerWidth / BASE_WIDTH,
+      window.innerHeight / BASE_HEIGHT
+    )
   );
 
-  canvas.width = BASE_WIDTH;
-  canvas.height = BASE_HEIGHT;
+  SCALE = Math.max(1, SCALE);
 
-  canvas.style.width = Math.floor(BASE_WIDTH * scale) + "px";
-  canvas.style.height = Math.floor(BASE_HEIGHT * scale) + "px";
+  canvas.width = BASE_WIDTH * SCALE;
+  canvas.height = BASE_HEIGHT * SCALE;
 
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
   ctx.imageSmoothingEnabled = false;
+}
+let isTransitioning = false;
+let transitionTime = 0;
+const TRANSITION_DURATION = 30;
+function changeMap(nextMap) {
+  isTransitioning = true;
+  transitionTime = 0;
+  gamestate.nextMap = nextMap;
+}
+function drawLoading() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
- if (gamestate.map === 1){
-     drawScene1();
- }
- if (gamestate.map === 2){
-    drawScene2()
- }
+  ctx.fillStyle = "white";
+  ctx.font = "16px monospace";
+  ctx.textAlign = "center";
+  ctx.fillText(
+    "Loading...",
+    canvas.width / 2,
+    canvas.height / 2
+  );
+}
+function gameLoop() {
+  ctx.clearRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
+
+  if (gamestate.map === 1) drawScene1();
+  if (gamestate.map === 2) drawScene2();
+
+  requestAnimationFrame(gameLoop);
 }
 
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+requestAnimationFrame(gameLoop);
 
+}
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
-}
+
 document.getElementById("settings").onclick = function(){
     if (document.getElementById("settings-menu").style.visibility === "hidden") {
         document.getElementById("settings-menu").style.visibility = "visible";
@@ -518,3 +538,6 @@ document.getElementById("achievements").onclick = function(){
 document.getElementById("close-settings").onclick = function(){
     document.getElementById("settings-menu").style.visibility = "hidden";
 }
+resizeCanvas()
+gameLoop();
+changeMap(1)

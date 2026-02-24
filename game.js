@@ -1,7 +1,8 @@
 document.getElementById("startgame").onclick = function(){
+    console.log("window.innerWidth:",window.innerWidth, "window.innerHeight:",window.innerHeight)
     document.getElementById("startgame").style.visibility = "hidden"
     document.getElementById("gametitle").style.visibility = "hidden"
-const gamestate = {
+let gamestate = {
     mxd :30,
     money :100,
     Day :1,
@@ -10,7 +11,7 @@ const gamestate = {
     maxday : 4,
     thatvong :0,
     kotumua : 0,
-    map : 2
+    map : 1
 }
 const Thoaime = {
     1 : {
@@ -332,30 +333,28 @@ const map2 = [
 let spriteLoaded = 0;
 let totalSprites = 0;
 function createSprite(src, tileX, tileY, w, h) {
-  const img = new Image();
-  totalSprites++;
+    const img = new Image();
+    totalSprites++;
 
-  img.onload = () => {
-    spriteLoaded++;
-    if (spriteLoaded === totalSprites) {
-        if(gamestate.map === 1){
-            drawScene1()
+    img.onload = () => {
+        spriteLoaded++;
+        if (spriteLoaded === totalSprites) {
+            if(gamestate.map === 1){
+                drawScene1()
+            }
+            if (gamestate.map === 2){
+                drawScene2()
+            }
         }
-        if (gamestate.map === 2){
-            drawScene2()
-        }
-    }
-  };
-
-  img.src = src;
-
-  return {
+    };
+img.src = src;
+return {
     img,
     x: tileX * TILE,
     y: tileY * TILE,
     w,
     h
-  };
+    };
 }
 const TreeImage = new Image();
 TreeImage.src = "sprites/Tree.png";
@@ -470,13 +469,17 @@ const BASE_WIDTH = map1[0].length * TILE;
 const BASE_HEIGHT = map1.length * TILE;  
 canvas.width = BASE_WIDTH;
 canvas.height = BASE_HEIGHT;
+let scale = Math.min(
+    window.innerWidth / BASE_WIDTH,
+    window.innerHeight / BASE_HEIGHT
+);
 ctx.imageSmoothingEnabled = false;
-
 function resizeCanvas() {
-  const scale = Math.min(
+    scale = Math.min(
     window.innerWidth / BASE_WIDTH,
     window.innerHeight / BASE_HEIGHT
   );
+  console.log(scale)
 
   canvas.width = BASE_WIDTH;
   canvas.height = BASE_HEIGHT;
@@ -488,17 +491,63 @@ function resizeCanvas() {
   ctx.imageSmoothingEnabled = false;
 
  if (gamestate.map === 1){
-     drawScene1();
+    drawScene1();
  }
  if (gamestate.map === 2){
     drawScene2()
  }
 }
-
+const btt_btn = document.createElement("button")
+btt_btn.id = "btt-btn"
+btt_btn.style.position = "absolute"
+btt_btn.style.left = (window.innerWidth-(Math.floor(BASE_WIDTH * scale)))/2 + 368*scale + "px"
+btt_btn.style.top = (window.innerHeight-(Math.floor(BASE_HEIGHT * scale)))/2 + 16*scale + "px"
+btt_btn.style.width = 80*scale + "px"
+btt_btn.style.height = 50*scale + "px"
+btt_btn.style.backgroundColor = "transparent"
+btt_btn.style.cursor = "pointer"
+btt_btn.style.border = "none"
+btt_btn.textContent = "E to view"
+btt_btn.style.fontFamily = "PixelFont"
+if (gamestate.map === 2){
+    btt_btn.style.visibility = "hidden"
+}
+document.body.appendChild(btt_btn)
 
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
+window.addEventListener("resize", function(){
+    document.getElementById("btt-btn").style.position = "absolute"
+    document.getElementById("btt-btn").style.left = (window.innerWidth-(Math.floor(BASE_WIDTH * scale)))/2 + 368*scale + "px"
+    document.getElementById("btt-btn").style.top = (window.innerHeight-(Math.floor(BASE_HEIGHT * scale)))/2 + 16*scale + "px"
+    document.getElementById("btt-btn").style.width = 80*scale + "px"
+    document.getElementById("btt-btn").style.height = 50*scale + "px"
+})
+const mapchange = new Proxy(gamestate, {
+    set(target, prop, value) {
+        if (prop === "map") {
+            if (value === 1) {
+                drawScene1();
+                document.getElementById("btt-btn").style.visibility = "visible";
+            } else if (value === 2) {
+                drawScene2();
+                document.getElementById("btt-btn").style.visibility = "hidden";
+            }
+        };
+    }
+});
+document.getElementById("btt-btn").addEventListener("mouseenter", function() {
+    console.log("hovered")
+document.addEventListener("keydown", function(event) {
+    if (event.key == "e") {
+        document.getElementById("btt").style.visibility = "visible";
+        document.getElementById("btt-btn").style.visibility = "hidden";
+    }
 }
+)
+}
+);
+};
 document.getElementById("settings").onclick = function(){
     if (document.getElementById("settings-menu").style.visibility === "hidden") {
         document.getElementById("settings-menu").style.visibility = "visible";
@@ -517,4 +566,8 @@ document.getElementById("achievements").onclick = function(){
 }
 document.getElementById("close-settings").onclick = function(){
     document.getElementById("settings-menu").style.visibility = "hidden";
+}
+document.getElementById("close-btt").onclick = function(){
+    document.getElementById("btt").style.visibility = "hidden";
+    document.getElementById("btt-btn").style.visibility = "visible";
 }

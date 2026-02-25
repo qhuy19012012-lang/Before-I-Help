@@ -464,10 +464,6 @@ const BASE_WIDTH = map1[0].length * TILE;
 const BASE_HEIGHT = map1.length * TILE;  
 canvas.width = BASE_WIDTH;
 canvas.height = BASE_HEIGHT;
-let scale = Math.min(
-    window.innerWidth / BASE_WIDTH,
-    window.innerHeight / BASE_HEIGHT
-);
 ctx.imageSmoothingEnabled = false;
 let SCALE = 1;
 function resizeCanvas() {
@@ -477,9 +473,9 @@ function resizeCanvas() {
       window.innerHeight / BASE_HEIGHT
     )
   );
-  console.log(scale)
 
   SCALE = Math.max(1, SCALE);
+  console.log("scale: ", SCALE)
 
   canvas.width = BASE_WIDTH * SCALE;
   canvas.height = BASE_HEIGHT * SCALE;
@@ -519,18 +515,16 @@ function gameLoop() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 requestAnimationFrame(gameLoop);
-}
 const btt_btn = document.createElement("button")
 btt_btn.id = "btt-btn"
 btt_btn.style.position = "absolute"
-btt_btn.style.left = (window.innerWidth-(Math.floor(BASE_WIDTH * scale)))/2 + 368*scale + "px"
-btt_btn.style.top = (window.innerHeight-(Math.floor(BASE_HEIGHT * scale)))/2 + 16*scale + "px"
-btt_btn.style.width = 80*scale + "px"
-btt_btn.style.height = 50*scale + "px"
+btt_btn.style.left = (window.innerWidth-(Math.floor(BASE_WIDTH * SCALE)))/2 + 368*SCALE + "px"
+btt_btn.style.top = (window.innerHeight-(Math.floor(BASE_HEIGHT * SCALE)))/2 + 16*SCALE + "px"
+btt_btn.style.width = 80*SCALE + "px"
+btt_btn.style.height = 50*SCALE + "px"
 btt_btn.style.backgroundColor = "transparent"
 btt_btn.style.cursor = "pointer"
 btt_btn.style.border = "none"
-btt_btn.textContent = "E to view"
 btt_btn.style.fontFamily = "PixelFont"
 if (gamestate.map === 2){
     btt_btn.style.visibility = "hidden"
@@ -542,10 +536,10 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 window.addEventListener("resize", function(){
     document.getElementById("btt-btn").style.position = "absolute"
-    document.getElementById("btt-btn").style.left = (window.innerWidth-(Math.floor(BASE_WIDTH * scale)))/2 + 368*scale + "px"
-    document.getElementById("btt-btn").style.top = (window.innerHeight-(Math.floor(BASE_HEIGHT * scale)))/2 + 16*scale + "px"
-    document.getElementById("btt-btn").style.width = 80*scale + "px"
-    document.getElementById("btt-btn").style.height = 50*scale + "px"
+    document.getElementById("btt-btn").style.left = (window.innerWidth-(Math.floor(BASE_WIDTH * SCALE)))/2 + 368*SCALE + "px"
+    document.getElementById("btt-btn").style.top = (window.innerHeight-(Math.floor(BASE_HEIGHT * SCALE)))/2 + 16*SCALE + "px"
+    document.getElementById("btt-btn").style.width = 80*SCALE + "px"
+    document.getElementById("btt-btn").style.height = 50*SCALE + "px"
 })
 const mapchange = new Proxy(gamestate, {
     set(target, prop, value) {
@@ -564,14 +558,22 @@ document.getElementById("btt-btn").addEventListener("mouseenter", function() {
     console.log("hovered")
 document.addEventListener("keydown", function(event) {
     if (event.key == "e") {
-        document.getElementById("btt").style.visibility = "visible";
-        document.getElementById("btt-btn").style.visibility = "hidden";
+        document.addEventListener("keyup", function(event) {
+            if (event.key == "e") {
+                window.clearTimeout(timeoutId);
+            }
+        })
+        const timeoutId = window.setTimeout(function() {
+            document.getElementById("btt").style.visibility = "visible";
+            document.getElementById("btt-btn").style.visibility = "hidden";
+        }, 1000)
     }
 }
 )
 }
 );
-
+} // cuối của onclick startgame
+// nhớ đóng onclick startgame đúng chỗ !!!
 document.getElementById("settings").onclick = function(){
     if (document.getElementById("settings-menu").style.visibility === "hidden") {
         document.getElementById("settings-menu").style.visibility = "visible";
@@ -595,3 +597,5 @@ document.getElementById("close-btt").onclick = function(){
     document.getElementById("btt").style.visibility = "hidden";
     document.getElementById("btt-btn").style.visibility = "visible";
 }
+console.log("code hoạt động")
+console.log(1/Math.random())

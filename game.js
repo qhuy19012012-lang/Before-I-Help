@@ -11,7 +11,9 @@ let gamestate = {
     maxday : 4,
     thatvong :0,
     kotumua : 0,
-    map : 1
+    map : 1,
+    loading : false,
+    loadingtime : 0,
 }
 const Thoaime = {
     1 : {
@@ -136,83 +138,78 @@ function makeitem(typeitem){
         }
   
 }
-let Lop2 = {
-    name : "Cậu Bé Lớp 2",
-    place : "Trường Học",
-    thiencam : 65,
-    yeuthich : [""],
-    nguoithan : false
-}
-let GiaoVien = {
-    name : "Giáo Viên",
-    place : "Trường Học",
-    thiencam : 75,
-    yeuthich : [""],
-    nguoithan : false
-}
 let BaTam = {
+    id : 9,
     name : "Bà Tám",
-    place : "Quảng Trường",
-    thiencam : 20,
-    yeuthich : [""],
-    nguoithan : false
+    place : 3,
+    age : 45,
+    likeability: 20,
+    yeuthich : ["Anything"],
 }
 let ChiNam = {
-    name : "Chị Năm",
+    id: 8,
+    name : 3,
     place : "Quảng Trường",
-    thiencam : 50,
-    yeuthich : [""],
-    nguoithan : false
+    age: 23,
+    likeability : 50,
+    yeuthich : ["Bim bim"],
 }
 let ThiTruong = {
-    name : "Thị Trưởng",
+    id: 7,
+    name : 3,
     place : "Quảng Trường",
-    yeuthich : [""],
-    nguoithan : false
+    age : 38,
+    yeuthich : ["Nothing"],
 }
 let CoUt = {
+    id : 6,
     name : "Cô Út",
-    place : "Chợ",
-    thiencam : 70,
-    yeuthich : [""],
-    nguoithan : true
+    place : 2,
+    age : 26,
+    likeability : 70,
+    yeuthich : ["Rau muống"],
 }
 let HoaThanh = {
+    id : 5,
     name : "Bác Hoa Thánh",
-    place : "Chợ",
-    thiencam : 50,
-    yeuthich : [""],
-    nguoithan : false
+    place : 2,
+    age : 47,
+    likeability : 50,
+    yeuthich : ["Nước rau má"],
 }
 let Bacba = {
+    id : 4,
     name : "Bác Ba Bán Rau",
-    place : "Chợ",
-    thiencam : 40,
-    yeuthich : [""],
-    nguoithan : false
+    place : 2,
+    age : 28,
+    likeability : 40,
+    yeuthich : ["Thịt"],
 }
 let NhanNan = {
+    id : 3,
     name : "Nhận Nan",
-    place : "Nhà",
-    thiencam : 40,
-    yeuthich : [""],
-    nguoithan : false
+    place : 1,
+    age : 21,
+    likeability : 40,
+    yeuthich : ["Nước mía"],
 }
 let NhoNghia = {
+    id : 2,
     name : "Nhớ Nghĩa",
-    place : "Nhà",
-    thiencam : 80,
-    yeuthich : [""],
-    nguoithan : true
+    place : 1,
+    age : 20,
+    likeability : 80,
+    yeuthich : ["Nem chua"],
 }
 let Mom = {
+    id : 1,
     name : "Mẹ",
-    place : "Nhà",
-    thiencam : 95,
-    yeuthich : [""],
-    nguoithan : true
+    place : 1,
+    age : 40,
+    likeability : 95,
+    yeuthich : ["Anything"],
 }
-const NPClist = [Mom,NhoNghia,NhanNan,Bacba,HoaThanh,CoUt,ThiTruong,ChiNam,BaTam,GiaoVien,Lop2]
+const NPClist = [Mom,NhoNghia,NhanNan,Bacba,HoaThanh,CoUt,ThiTruong,ChiNam,BaTam]
 function startday() {
     console.log("Ngày:",gamestate.Day)
     console.log("MXĐ:",gamestate.mxd)
@@ -288,6 +285,14 @@ tiles[19].src = "tiles/path1.png"
 tiles[20].src = "tiles/path2.png"
 tiles[21].src = "tiles/path3.png"
 tiles[22].src = "tiles/path4.png"
+const carFrames = [
+  new Image(),
+  new Image()
+];
+carFrames[0].src = "sprites/Car1.png";
+carFrames[1].src = "sprites/Car2.png";
+const npcPanelImg = new Image();
+npcPanelImg.src = "sprites/thong_tin.png";
 const map1 = [
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -329,6 +334,27 @@ const map2 = [
    [6,1,1,1,17,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,18,1,1,1,1],
    [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,17],
    [6,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,1,1,5],
+]
+const map3 = [
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
 let spritesReady = false
 let tileReady = false;
@@ -452,6 +478,9 @@ function drawScene1() {
 function drawScene2() {
     drawMap(map2)
 }
+function drawScene3() {
+    drawMap(map3)
+}
 for (let key in tiles) {
   tiles[key].onload = () => {
     loaded++;
@@ -473,9 +502,7 @@ function resizeCanvas() {
       window.innerHeight / BASE_HEIGHT
     )
   );
-
   SCALE = Math.max(1, SCALE);
-  console.log("scale: ", SCALE)
 
   canvas.width = BASE_WIDTH * SCALE;
   canvas.height = BASE_HEIGHT * SCALE;
@@ -486,32 +513,133 @@ function resizeCanvas() {
 let isTransitioning = false;
 let transitionTime = 0;
 const TRANSITION_DURATION = 30;
-function changeMap(nextMap) {
-  isTransitioning = true;
-  transitionTime = 0;
-  gamestate.nextMap = nextMap;
+function changeMap(newMap) {
+  if (gamestate.loading) return;
+
+  gamestate.loading = true;
+  gamestate.loadingtime = 0;
+
+  setTimeout(() => {
+    gamestate.map = newMap;
+  }, 1500);
 }
-function drawLoading() {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
-  ctx.font = "16px monospace";
-  ctx.textAlign = "center";
-  ctx.fillText(
-    "Loading...",
-    canvas.width / 2,
-    canvas.height / 2
+function drawLoadingDecor() {
+  // viền ngoài
+  ctx.strokeStyle = "#9e714c";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(8, 8, BASE_WIDTH - 16, BASE_HEIGHT - 16);
+
+  // thanh trên
+  ctx.fillStyle = "#2d7927";
+  ctx.fillRect(16, 16, BASE_WIDTH - 32, 24);
+
+  // thanh dưới
+  ctx.fillRect(
+    16,
+    BASE_HEIGHT - 40,
+    BASE_WIDTH - 32,
+    24
   );
 }
-function gameLoop() {
+function drawFakeProgress() {
+  const barWidth = BASE_WIDTH - 80;
+  const barHeight = 10;
+  const x = 40;
+  const y = BASE_HEIGHT / 2 + 24;
+
+  // nền thanh
+  ctx.fillStyle = "#333";
+  ctx.fillRect(x, y, barWidth, barHeight);
+
+  // tiến trình giả
+  const progress =
+    Math.min(gamestate.loadingtime / 1500, 1);
+
+  ctx.fillStyle = "#56c856";
+  ctx.fillRect(
+    x,
+    y,
+    barWidth * progress,
+    barHeight
+  );
+}
+function drawLoading(dt) {
+  ctx.fillStyle = "orange";
+  ctx.fillRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
+  drawLoadingDecor();
+  drawFakeProgress();
+
+  gamestate.loadingtime += dt;
+
+  const frame =
+    Math.floor(gamestate.loadingtime / 200) % carFrames.length;
+
+  ctx.drawImage(
+    carFrames[frame],
+    CAR_X,
+    CAR_Y
+  );
+
+  ctx.fillStyle = "white";
+  ctx.font = "16px PixelFont";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const dots = ".".repeat(
+    Math.floor(gamestate.loadingtime / 400) % 4
+  );
+
+  ctx.fillText(
+    "Đang di chuyển" + dots,
+    BASE_WIDTH / 2,
+    BASE_HEIGHT / 2
+  );
+
+  if (gamestate.loadingtime >= 1500) {
+    gamestate.loading = false;
+    gamestate.loadingtime = 0;
+  }
+}
+let lastTime = 0;
+
+function gameLoop(time) {
+  const dt = time - lastTime;
+  lastTime = time;
+
+  ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0);
   ctx.clearRect(0, 0, BASE_WIDTH, BASE_HEIGHT);
 
-  if (gamestate.map === 1) drawScene1();
-  if (gamestate.map === 2) drawScene2();
+  if (gamestate.loading) {
+    drawLoading(dt);
+  } else {
+    if (gamestate.map === 1) drawScene1();
+    if (gamestate.map === 2) drawScene2();
+    if (gamestate.map === 3) drawScene3();
+  }
+  
 
   requestAnimationFrame(gameLoop);
 }
 
+requestAnimationFrame(gameLoop);
+const MAX_MAP = 3;
+
+document.addEventListener("keydown", (e) => {
+  if (e.key.toLowerCase() === "p" && !gamestate.loading) {
+    let nextMap = gamestate.map + 1;
+    if (nextMap > MAX_MAP) nextMap = 1;
+    changeMap(nextMap);
+  }
+});
+function redrawMap() {
+  if (gamestate.map === 1) drawScene1();
+  if (gamestate.map === 2) drawScene2();
+}
+const CAR_WIDTH = 96;
+const CAR_HEIGHT = 48;
+
+const CAR_X = BASE_WIDTH - CAR_WIDTH - 16;  // góc phải
+const CAR_Y = BASE_HEIGHT - CAR_HEIGHT - 16; // góc dưới
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 requestAnimationFrame(gameLoop);

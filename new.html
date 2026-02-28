@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: #222;
+  }
+
+  #viewport {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #world {
+    position: absolute;
+    width: 3000px;
+    height: 3000px;
+    background: 
+      linear-gradient(#7ec850 1px, transparent 1px),
+      linear-gradient(90deg, #7ec850 1px, transparent 1px);
+    background-size: 100px 100px; /* nền lưới chill */
+  }
+
+  #player {
+    width: 48px;
+    height: 48px;
+    background: red; /* thay ảnh sau */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+</head>
+
+<body>
+
+<div id="viewport">
+  <div id="world">
+    <div id="player"></div>
+  </div>
+</div>
+
+<script>
+const world = document.getElementById("world");
+
+let playerX = 1500;
+let playerY = 1500;
+let speed = 4;
+
+const keys = {};
+
+document.addEventListener("keydown", (e) => keys[e.key] = true);
+document.addEventListener("keyup", (e) => keys[e.key] = false);
+
+function gameLoop() {
+
+  if (keys["ArrowLeft"] || keys["a"]) playerX -= speed;
+  if (keys["ArrowRight"] || keys["d"]) playerX += speed;
+  if (keys["ArrowUp"] || keys["w"]) playerY -= speed;
+  if (keys["ArrowDown"] || keys["s"]) playerY += speed;
+
+  // Camera follow: dịch chuyển world ngược lại vị trí player
+  const offsetX = window.innerWidth / 2 - playerX;
+  const offsetY = window.innerHeight / 2 - playerY;
+
+  world.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+</script>
+
+</body>
+</html>
